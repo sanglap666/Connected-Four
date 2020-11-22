@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block link %}
+
+{% endblock link %}
+    <link rel="stylesheet" href="{% static 'game.css' %}">
+
+{% block content %}
+    
+    <br>
+    <h1>Welcome To Connected Four!</h1>
+    <h2>The object of the game is to connect four of your chips in a row!</h2>
+    
+    
+    </br>
+        
+
+    {% if request.user.is_authenticated %}
+    <div class="container-new ">
+        <div class="row "> 
+            <div class="col-md-8 col-xs-8 "  >
+                <table class="col-md-10 col-xs-10">
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            
+                        </table>
+            </div>
+            
+            
+                <div class=" col-md-4 col-xs-4 block-game">
+                    <!-- Heading -->
+                    <div class="row block-section">
+                        <div class="col-sm-12 col-xs-12  ">
+                            <h2>Players</h2>
+                        </div>
+                    </div>
+            
+                    
+                        
+                    <div class="block-section">
+                        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                            {% for connection in connections  %}
+                                <div class="row block-player">
+                                    <div class="col-sm-8 col-xs-8 ">
+                                        <strong>{{connection.username}}</strong>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 ">
+                                            <a class="btn btn-success" id="connect" href="#" role="button" value="{{connection.username}}">Play</a>
+                                    </div>
+                                            
+                                </div>
+                            {%endfor%}    
+                            
+                                    
+                                    
+                        </div>
+                    </div>    
+
+                    
+                </div>
+            
+            
+    
+    {% else %}
+    
+    <div class="container">
+        <a class="btn btn-success" href="{% url 'login' %}" role="button">Login to Play</a>
+        <table class="col-md-10 col-xs-10">
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                                <td><input type="button" id="circles"></td>
+                            </tr>
+                            
+        </table>
+    </div>
+    {% endif %}
+        </div>    
+    </div>
+   
+   
+
+
+
+    
+    
+        
+     
+{% endblock content %}
+
+{% block script %}
+    <script language="JavaScript" type="text/javascript" src="{% static 'home.js' %}"></static>
+{% endblock script %}
