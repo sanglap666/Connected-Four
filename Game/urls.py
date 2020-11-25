@@ -19,7 +19,8 @@ from connectedfour import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home',views.home,name='home'),
+    path('',views.home,name='home'),
+    path('profile',views.profile,name='profile'),
     path('accounts/',include('accounts.urls')),
-    path('home/<username>',views.game,name='game')
+    path('profile/<username>',views.game,name='game')
 ]

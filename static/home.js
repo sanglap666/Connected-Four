@@ -15,7 +15,7 @@ socket.onopen = function(e) {
     console.log("open", e)
     conn.addEventListener("click", function(event) {
         var username = conn.getAttribute('value')
-        socket.send(JSON.stringify(username))
+        socket.send(username)
     })
 
 }

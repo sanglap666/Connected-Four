@@ -5,7 +5,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator
 from django.core.asgi import get_asgi_application
 from django.urls import re_path 
-from .consumer import ChatConsumer,HomeConsumer
+from .consumer import ChatConsumer
 from django.conf.urls import url
 
 
@@ -17,8 +17,8 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter(
                 [
-                   url(r"^home/(?P<username>[\w.@+-]+)",ChatConsumer), 
-                   url("",HomeConsumer)
+                   url(r"^profile/(?P<username>[\w.@+-]+)",ChatConsumer), 
+                   url("profile",ChatConsumer)
                 ]
             )
         )

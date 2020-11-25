@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'connectedfour',
     'accounts',
     'crispy_forms',
-    'channels'
+    'channels',
+    'channels_redis'
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'static'),]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
