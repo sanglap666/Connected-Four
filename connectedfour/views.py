@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from accounts.models import connection
-
+from django.contrib.auth import get_user_model
 # Create your views here.
-
+model = get_user_model()
 def home(request):
 
     if request.user.is_authenticated:
@@ -19,5 +19,5 @@ def profile(request):
         user = connection.objects.get(user=request.user)
         
         connections = user.connections.all()
-        return render(request,"profile.html",{'connections':connections})
+        return render(request,"profile.html",{'connections':connections,})
     return render(request,"home.html")

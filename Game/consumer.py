@@ -10,7 +10,11 @@ model = get_user_model()
 
 
 
-class ChatConsumer(AsyncConsumer):
+
+
+
+
+class ChatConsumer(AsyncConsumer):                        #chat consumer is the lobby where  all players are present
 
     async def websocket_connect(self,event):
         chat_room = "thread1"
@@ -34,15 +38,40 @@ class ChatConsumer(AsyncConsumer):
 
     async def websocket_receive(self,event):
         print("received",event)
-        firstuser,seconduser = await self.get_socket_users(event)
-        currentthread = await self.get_current_thread(firstuser,seconduser)
+        
+        front_text = event.get('text',None)
+        loaded_dict_data = json.loads(front_text)
+        other_user = loaded_dict_data.get('username')
+        
+        firstuser,seconduser = await self.get_socket_users(event,other_user)
+        currentthread = await self.get_current_thread(firstuser,seconduser)       #firstuser is logged in user ----- seconduser is to whom message is to be sent
         chat_room = f"thread_{currentthread.id}"
-                                                                                    #sending connect request to particular user using connected chat_room
-        await self.channel_layer.group_send(
+
+        if loaded_dict_data.get('message') == "connect":
+        
+            response = {
+                "fromuser":firstuser.username,                                         #creating connect request
+                "message":"connect"
+
+            }
+        if loaded_dict_data.get('message') == "accept":
+            response = {
+                "fromuser":firstuser.username,                                         #creating connect request
+                "message":"accept"
+
+            }
+        if  loaded_dict_data.get('message') == "reject":
+             response = {
+                "fromuser":firstuser.username,                                         #creating connect request
+                "message":"rejected"
+
+            }  
+                                                                                    
+        await self.channel_layer.group_send(                                           #sending connect request to particular user using connected chat_room
             chat_room,
             {
                 "type":"chat_message",
-                "text":"connect"
+                "text":json.dumps(response)
             }
         )
     
@@ -57,10 +86,12 @@ class ChatConsumer(AsyncConsumer):
         print("disconnected",event)        
 
     @database_sync_to_async
-    def get_socket_users(self,event):
+    def get_socket_users(self,event,other_user):
 
         first = self.scope['user']
-        second = model.objects.get(username=event['text'])
+        
+
+        second = model.objects.get(username=other_user)
         return first,second
 
     @database_sync_to_async
@@ -80,3 +111,28 @@ class ChatConsumer(AsyncConsumer):
             threads.append(thrd)     
         print(threads)
         return  threads   
+
+
+class GameConsumer(ChatConsumer):                              #Gameconsumer is between 2 players
+    async def websocket_connect(self,event):
+        
+        other_user = self.scope['url_route']['kwargs']['username']
+        firstuser,seconduser = await self.get_socket_users(event,other_user)
+        currentthread = await self.get_current_thread(firstuser,seconduser)
+        chat_room = f"thread_{currentthread.id}"
+        
+        await self.channel_layer.group_add(
+            chat_room,self.channel_name
+        )
+       
+
+        await self.send(
+            {
+                'type':'websocket.accept'
+            }
+        )
+    async def websocket_receive(self,event):
+        print("recieved",event)
+
+    async def websocket_disconnect(self,event):
+        print("disconnected",event)                 
